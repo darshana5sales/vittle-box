@@ -105,18 +105,18 @@
     }
 
     .nav.scrolled {
-      background: rgba(255, 255, 255, .94);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      background: rgba(255, 255, 255, .92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--line);
-      box-shadow: 0 2px 20px rgba(0,0,0,.06);
+      box-shadow: 0 1px 16px rgba(0,0,0,.07);
     }
 
     .nav-inner {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 18px 28px;
+      padding: 14px 28px;
       max-width: 1400px;
       margin: 0 auto
     }
@@ -132,7 +132,7 @@
     }
 
     .logo-img {
-      height: 48px;
+      height: 40px;
       width: auto;
       display: block;
       object-fit: contain;
@@ -204,48 +204,56 @@
     @media(max-width:860px) {
       .nav-toggle{display:inline-flex}
       .nav .nav-cta{display:none}
+      .nav-inner{padding:10px 16px;}
       .nav-links{
         position:absolute;top:100%;left:0;right:0;
         flex-direction:column;gap:0;
         background:rgba(255,255,255,.98);
         backdrop-filter: blur(14px);
         border-bottom:1px solid var(--line);
-        padding:8px 20px 20px;
+        padding:0 16px;
         max-height:0;overflow:hidden;
         transition:max-height .35s ease, padding .35s ease;
       }
-      .nav-links.open{max-height:520px;padding:12px 20px 24px}
+      .nav-links.open{max-height:480px;padding:8px 16px 20px}
       .nav-links a{
-        padding:14px 4px;
+        padding:12px 4px;
         border-bottom:1px solid var(--line);
-        font-size:16px;color:var(--ink);
+        font-size:15px;color:var(--ink);
       }
       .nav-links a:last-of-type{border-bottom:none}
       .nav-links .nav-cta-mobile{
         display:inline-flex;align-items:center;justify-content:center;
-        margin-top:14px;
+        margin-top:10px;
         background:var(--accent);color:var(--cream);
-        padding:13px 22px;border-radius:999px;
+        padding:12px 22px;border-radius:999px;
         font-weight:600;font-size:14px;
         border-bottom:none;
       }
-      .nav{position:sticky}
+      .nav { position: sticky; }
+      /* hero sits directly under sticky nav — no offset needed */
+      .hero { padding-top: 48px; margin-top: 0; }
+      .hero::before { top: 0; }
     }
 
     /* ---------- HERO ---------- */
     .hero {
       position: relative;
-      padding: 140px 0 80px;
+      padding: 110px 0 80px;
       overflow: visible;
+      /* extend gradient behind the fixed nav */
+      margin-top: -1px;
     }
 
     .hero::before {
       content: "";
       position: absolute;
       inset: 0;
+      top: -80px; /* bleed up behind nav */
       background:
-        radial-gradient(60% 50% at 85% 20%, rgba(243, 47, 47, .18), transparent 60%),
-        radial-gradient(50% 40% at 10% 90%, rgba(243, 47, 47, .12), transparent 60%);
+        radial-gradient(60% 55% at 80% 15%, rgba(243, 47, 47, .20), transparent 60%),
+        radial-gradient(50% 40% at 10% 90%, rgba(243, 47, 47, .13), transparent 60%),
+        radial-gradient(40% 30% at 50% 0%, rgba(68, 75, 215, .06), transparent 70%);
       pointer-events: none;
     }
 
@@ -1798,7 +1806,7 @@
       margin-bottom: 32px;
       box-shadow: 0 2px 12px rgba(28,24,21,.05);
     }
-    .biz-fn { display: flex; align-items: baseline; gap: 12px; font-size: 14px; color: var(--cream-dim); }
+    .biz-fn { display: flex; align-items: flex-start; gap: 12px; font-size: 14px; color: var(--cream-dim); line-height: 1.55; }
     .biz-fn-num {
       width: 22px; height: 22px;
       border-radius: 50%;
@@ -1923,20 +1931,45 @@
 
     @media(max-width:760px) {
       .footer-top {
-        grid-template-columns: 1fr;
-        gap: 28px;
-        text-align: center
-      }
-
-      .footer-col,
-      .footer-col.right {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        grid-template-rows: auto auto;
+        gap: 2px 40px;
         align-items: center;
-        text-align: center
+        margin-bottom: 16px;
       }
-
+      /* Logo — left, spans both rows */
+      .footer-col:first-child {
+        grid-column: 1;
+        grid-row: 1 / 3;
+        align-items: flex-start;
+        justify-content: center;
+      }
+      /* Email — right col row 1 */
+      .footer-col.center {
+        grid-column: 2;
+        grid-row: 1;
+        align-items: flex-start;
+        text-align: left;
+      }
+      /* Phone — right col row 2 */
+      .footer-col.right {
+        grid-column: 2;
+        grid-row: 2;
+        align-items: flex-start;
+        text-align: left;
+      }
+      .footer .logo-img { height: 48px; }
+      .footer-col a, .footer-col span { font-size: 13px; }
+      .footer-col .label { font-size: 9px; margin-bottom: 1px; }
       .footer-bottom {
         justify-content: center;
-        text-align: center
+        text-align: center;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+        font-size: 11px;
+        padding-top: 14px;
       }
     }
 
@@ -2113,7 +2146,7 @@
       .section { padding: 80px 0; }
 
       /* Hero */
-      .hero { padding: 120px 0 60px; }
+      .hero { padding: 80px 0 56px; }
       .hero-inner { grid-template-columns: 1fr; gap: 48px; }
       .hero-title { font-size: clamp(36px, 8vw, 56px); }
       .hero-sub { font-size: 16px; }
@@ -2145,8 +2178,9 @@
 
       /* Biz diagram */
       .biz-diagram { grid-template-columns: 1fr; gap: 20px; }
-      .biz-center { flex-direction: row; justify-content: center; gap: 24px; }
+      .biz-center { flex-direction: row; justify-content: center; align-items: center; gap: 24px; }
       .biz-payout-pill { order: -1; }
+      .biz-col--right { align-items: stretch; }
 
       /* Compare */
       .compare-row { grid-template-columns: 1.2fr 1fr 1fr; padding: 16px 20px; font-size: 14px; }
@@ -2162,7 +2196,7 @@
       .section-lede { font-size: 15px; }
 
       /* Hero */
-      .hero { padding: 110px 0 48px; }
+      .hero { padding: 70px 0 36px; }
       .hero-title { font-size: clamp(32px, 9vw, 48px); }
       .hero-trust { gap: 20px 32px; }
       .trust-item .n { font-size: 22px; }
@@ -2193,22 +2227,20 @@
       /* Brands */
       .brand-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
 
-      /* Compare — show both columns with label prefix */
-      .compare-row { grid-template-columns: 1fr 1fr; gap: 0; padding: 14px 16px; }
+      /* Compare — card-style mobile layout */
+      .compare-table { border-radius: 14px; }
+      .compare-row { grid-template-columns: 1fr; gap: 0; padding: 14px 16px; }
       .compare-row.head { display: none; }
-      .compare-row .label { grid-column: 1 / -1; font-weight: 700; color: var(--ink); font-size: 14px; margin-bottom: 4px; }
-      .compare-row .val { font-size: 13px; padding: 6px 10px; border-radius: 8px; }
-      .compare-row .val.yes { background: rgba(68,75,215,.06); }
-      .compare-row .val.others { display: block; background: rgba(28,24,21,.04); }
-      .compare-row .val.yes::before { content: "✓ Vittle Box"; font-size: 10px; font-weight: 700; color: var(--accent); display: block; margin-bottom: 2px; }
-      .compare-row .val.others::before { content: "Franchise"; font-size: 10px; font-weight: 600; color: var(--cream-dim); display: block; margin-bottom: 2px; }
+      .compare-row .label { grid-column: 1 / -1; font-weight: 700; color: var(--ink); font-size: 14px; margin-bottom: 8px; border: none; }
+      .compare-row .val { font-size: 13px; padding: 8px 10px; border-radius: 8px; display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+      .compare-row .val:last-child { margin-bottom: 0; }
+      .compare-row .val.yes { background: rgba(68,75,215,.07); }
+      .compare-row .val.others { display: flex; background: rgba(28,24,21,.04); }
+      .compare-row .val.yes::before { content: "✓ Vittle Box  "; font-size: 10px; font-weight: 800; color: var(--accent); white-space: nowrap; }
+      .compare-row .val.others::before { content: "Franchise  "; font-size: 10px; font-weight: 700; color: var(--cream-dim); white-space: nowrap; }
       .check { display: none; }
 
-      /* Footer */
-      .footer-top { grid-template-columns: 1fr; gap: 24px; text-align: center; }
-      .footer-col.right { align-items: center; }
-      .footer-col.center { align-items: center; }
-      .footer-bottom { justify-content: center; text-align: center; flex-direction: column; align-items: center; gap: 8px; }
+      /* Footer handled in 760px block */
     }
 
     /* ---------- 600px — large phone ---------- */
@@ -2217,16 +2249,20 @@
       .container { padding: 0 16px; }
 
       /* Nav */
-      .nav-inner { padding: 14px 16px; }
-      .logo-img { height: 38px; }
+      .nav-inner { padding: 10px 14px; }
+      .logo-img { height: 32px; }
 
       /* Hero */
-      .hero { padding: 100px 0 40px; }
+      .hero { padding: 40px 0 32px; }
       .hero-title { font-size: clamp(28px, 10vw, 40px); line-height: 1.1; }
       .eyebrow { font-size: 10px; padding: 6px 12px; }
       .hero-ctas { flex-direction: column; gap: 10px; }
       .hero-ctas .btn { width: 100%; text-align: center; justify-content: center; }
-      .hero-trust { gap: 16px 24px; }
+      .hero-trust { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; flex-wrap: nowrap; padding-top: 16px; }
+      .trust-item { padding-right: 12px; }
+      .trust-item:not(:last-child) { border-right: 1px solid var(--line); margin-right: 12px; }
+      .trust-item .n { font-size: 20px; }
+      .trust-item .l { font-size: 10px; letter-spacing: .08em; }
 
       /* Partner card */
       .partner-card { padding: 16px; gap: 12px; }
@@ -2266,18 +2302,48 @@
       .metrics-locations { padding: 20px; }
       .metrics-loc-grid { gap: 16px; }
 
-      /* Biz */
-      .biz-diagram { display: flex; flex-direction: column; gap: 16px; }
-      .biz-center { flex-direction: row; justify-content: center; align-items: center; gap: 20px; }
+      /* Biz — full mobile reflow */
+      .biz-diagram { display: flex; flex-direction: column; gap: 0; margin: 20px 0 16px; }
+
+      /* actors row: partner + hub + brand side by side */
+      .biz-diagram > .biz-col,
+      .biz-diagram > .biz-col.biz-col--right { width: 100%; }
+
+      /* flatten to single column order: partner actor → streams → hub → brand actor → streams */
+      .biz-col { gap: 10px; }
+      .biz-col--right { align-items: stretch; }
+
+      /* actors */
+      .biz-actor { flex-direction: row; padding: 12px 14px; gap: 12px; text-align: left; border-radius: 12px; }
+      .biz-actor svg { width: 36px; height: 36px; flex-shrink: 0; }
+      .biz-actor-name { font-size: 14px; }
+
+      /* stream badges */
+      .biz-stream-badges { gap: 8px; margin-bottom: 10px; }
+      .biz-stream-badge { padding: 10px 12px; gap: 10px; border-radius: 10px; }
+      .biz-badge-num { width: 22px; height: 22px; font-size: 11px; flex-shrink: 0; }
+      .biz-badge-title { font-size: 13px; }
+      .biz-badge-desc { font-size: 11.5px; }
+
+      /* center hub */
+      .biz-center { flex-direction: row; justify-content: center; align-items: center; gap: 16px; padding: 12px 0; }
       .biz-hub { width: 72px; height: 72px; flex-shrink: 0; }
-      .biz-hub-label { font-size: 10px; }
-      .biz-payout-pill { flex-shrink: 0; }
-      .biz-payout-n { font-size: 22px; }
-      .biz-footnotes { padding: 16px; }
-      .biz-terms-strip { gap: 6px; padding: 16px 12px; }
+      .biz-hub-label { font-size: 9.5px; }
+      .biz-payout-pill { padding: 8px 16px; }
+      .biz-payout-n { font-size: 20px; }
+      .biz-payout-l { font-size: 10px; }
+
+      /* footnotes — clean single-column list */
+      .biz-footnotes { padding: 12px 14px; margin-bottom: 16px; gap: 8px; }
+      .biz-fn { font-size: 12.5px; gap: 10px; line-height: 1.5; align-items: flex-start; }
+      .biz-fn-num { width: 20px; height: 20px; font-size: 10px; flex-shrink: 0; margin-top: 1px; }
+
+      /* terms strip */
       .biz-term-sep { display: none; }
-      .biz-terms-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-      .biz-term { padding: 0; }
+      .biz-terms-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 14px 12px; border-radius: 14px; }
+      .biz-term { padding: 8px; background: rgba(255,255,255,.12); border-radius: 10px; }
+      .biz-term-n { font-size: 18px; }
+      .biz-term-l { font-size: 10.5px; }
 
       /* Brands */
       .brand-grid { grid-template-columns: 1fr; }
@@ -2301,8 +2367,8 @@
     @media (max-width: 420px) {
       .hero-title { font-size: clamp(26px, 11vw, 36px); }
       .hero-ctas .btn { padding: 14px 20px; font-size: 14px; }
-      .trust-item .n { font-size: 20px; }
-      .trust-item .l { font-size: 11px; }
+      .trust-item .n { font-size: 18px; }
+      .trust-item .l { font-size: 9px; }
 
       /* Partner card */
       .pc-equation { gap: 4px; }
@@ -2322,6 +2388,7 @@
 
       /* Compare */
       .compare-row { padding: 12px 14px; }
+      .compare-row .val { font-size: 12px; padding: 7px 8px; }
 
       /* Ops */
       .ops-resp-list li { font-size: 13px; }
@@ -2936,9 +3003,9 @@
 
       <!-- Revenue breakdown footnotes -->
       <div class="biz-footnotes">
-        <div class="biz-fn"><span class="biz-fn-num">1</span> Revenue generated from the Restaurant Partner's existing <b>Dine-In</b> Business</div>
-        <div class="biz-fn"><span class="biz-fn-num">2</span> Revenue generated from the Restaurant Partner's existing <b>Delivery</b> Business</div>
-        <div class="biz-fn"><span class="biz-fn-num biz-fn-num--red">3</span> Revenue generated from <b>Brand Owner's Delivery</b> Business — shared 78% with partner</div>
+        <div class="biz-fn"><span class="biz-fn-num">1</span><span>Revenue generated from the Restaurant Partner's existing <b>Dine-In</b> Business</span></div>
+        <div class="biz-fn"><span class="biz-fn-num">2</span><span>Revenue generated from the Restaurant Partner's existing <b>Delivery</b> Business</span></div>
+        <div class="biz-fn"><span class="biz-fn-num biz-fn-num--red">3</span><span>Revenue generated from <b>Brand Owner's Delivery</b> Business — shared 78% with partner</span></div>
       </div>
 
       <!-- Agreement terms strip -->
